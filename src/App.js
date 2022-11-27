@@ -1,24 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isRegistered, setIsRegistered] = useState(false);
+  const GetLogin = async () => {
+    const res = await axios.post("http://localhost:4000/api/login", {
+      email: email,
+      password: password,
+      name: name,
+    });
+    console.log({ email, password });
+    console.log(res.data);
+  };
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {isRegistered && <div>
+        <h3>Name</h3>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        ></input>
+      </div>}
+      <h3>Email:</h3>
+      <input
+        type="text"
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+      ></input>
+      <h3>password</h3>
+      <input
+        type="text"
+        value={password}
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+      ></input>
+      <br></br>
+      <br></br>
+      <button onClick={GetLogin}>Submit</button>
+      <button onClick={()=>setIsRegistered(!isRegistered)}>{isRegistered?'Login':'Register'}</button>
+    </>
   );
 }
 
